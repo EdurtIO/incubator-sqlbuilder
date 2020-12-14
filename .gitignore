@@ -1,0 +1,31 @@
+# Compiled class file #
+*.class
+
+# Log file #
+*.log
+
+# BlueJ files #
+*.ctxt
+
+# J2ME #
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# jvm log #
+hs_err_pid*
+
+# mac os #
+.DS_Store
+
+# idea #
+.idea
+*.iml
+target/
+*.versionsBackup

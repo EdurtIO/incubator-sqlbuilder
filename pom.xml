@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.edurt.sqlbuilder</groupId>
+    <artifactId>incubator-sqlbuilder</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>incubator-sqlbuilder</name>
+    <description>SqlBuilder is a sql auto builder tools!</description>
+    <url>http://incubator.sqlbuilder.edurt.io</url>
+
+    <scm>
+        <url>https://github.com/EdurtIO/incubator-sqlbuilder.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>qianmoQ</name>
+            <roles>
+                <role>owner</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Edurt Open Source</name>
+        <url>http://www.edurt.io</url>
+    </organization>
+
+</project>
