@@ -25,11 +25,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Check Code Style And findbugs
+        run: ./mvnw clean install checkstyle:check findbugs:check -DskipTests
       - name: Run Tests with Maven
         run: ./mvnw clean install
-      - name: Check Code Style
-        run: ./mvnw clean install checkstyle:check -DskipTests
-      - name: Check FindBugs
-        run: ./mvnw clean install findbugs:check -DskipTests
       - name: Build with Maven
         run: ./mvnw clean install package
