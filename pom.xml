@@ -4,18 +4,47 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.edurt.sqlbuilder</groupId>
     <artifactId>incubator-sqlbuilder</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
-    <name>incubator-sqlbuilder</name>
+    <name>SqlBuilder(Incubator)</name>
     <description>SqlBuilder is a sql auto builder tools!</description>
     <url>http://incubator.sqlbuilder.edurt.io</url>
 
     <properties>
+        <lombok.version>1.18.10</lombok.version>
+        <junit.version>4.13.1</junit.version>
+        <log4j.version>2.13.3</log4j.version>
         <plugin.maven.compiler.version>3.3</plugin.maven.compiler.version>
         <plugin.maven.checkstyle.version>3.0.0</plugin.maven.checkstyle.version>
+        <plugin.maven.findbugs.version>3.0.5</plugin.maven.findbugs.version>
         <environment.compile.java.version>1.8</environment.compile.java.version>
     </properties>
+
+    <modules>
+        <module>common</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <scm>
         <url>https://github.com/EdurtIO/incubator-sqlbuilder.git</url>
@@ -71,7 +100,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
+                <version>${plugin.maven.findbugs.version}</version>
                 <configuration>
                     <effort>Low</effort>
                     <threshold>Medium</threshold>
