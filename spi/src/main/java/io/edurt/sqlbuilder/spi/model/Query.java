@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @ToString
 @NoArgsConstructor
@@ -12,5 +14,5 @@ import lombok.ToString;
 public class Query
 {
     private Action action;
-    private Condition condition;
+    private List<Condition> condition;
 }

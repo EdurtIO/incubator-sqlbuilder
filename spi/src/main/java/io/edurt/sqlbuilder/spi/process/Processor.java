@@ -1,15 +1,20 @@
 package io.edurt.sqlbuilder.spi.process;
 
+import io.edurt.sqlbuilder.spi.common.SqlCondition;
 import io.edurt.sqlbuilder.spi.common.SqlOperation;
 import io.edurt.sqlbuilder.spi.exception.SqlConvertException;
 import io.edurt.sqlbuilder.spi.model.Action;
+import io.edurt.sqlbuilder.spi.model.Condition;
 import io.edurt.sqlbuilder.spi.model.Query;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import static java.lang.String.format;
+import static java.lang.String.join;
 
 /**
  * sql generate processor
@@ -92,6 +97,34 @@ public interface Processor
         else {
             LOGGER.warn("sql convert error, sql action or relation must not null!");
             throw new SqlConvertException("sql convert error, sql action or relation must not null!");
+        }
+        return builder;
+    }
+
+    default StringBuilder parseCondition(Query query)
+    {
+        List<Condition> conditions = query.getCondition();
+        builder.append(format("%s%n1 = 1 ", SqlCondition.WHERE));
+        if (ObjectUtils.isNotEmpty(conditions) && conditions.size() > 0) {
+            conditions.forEach(v -> {
+                switch (v.getExpression()) {
+                    case EQ:
+                    case EQUAL:
+                        if (v.getValues().size() == 1) {
+                            builder.append(format("%s %s = %s%n", SqlCondition.AND, v.getColumn(), v.getValues().get(0)));
+                        }
+                        else {
+                            builder.append(format("%s %s %s (%s)%n", SqlCondition.AND,
+                                    v.getColumn(),
+                                    SqlCondition.IN,
+                                    join(", ", v.getValues())));
+                        }
+                        break;
+                }
+            });
+        }
+        else {
+            LOGGER.warn("sql condition is null, skip it!");
         }
         return builder;
     }

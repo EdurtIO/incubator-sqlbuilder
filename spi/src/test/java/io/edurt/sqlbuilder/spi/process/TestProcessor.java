@@ -1,10 +1,12 @@
 package io.edurt.sqlbuilder.spi.process;
 
 import io.edurt.sqlbuilder.common.jdk.ObjectBuilder;
+import io.edurt.sqlbuilder.spi.common.SqlExpression;
 import io.edurt.sqlbuilder.spi.common.SqlOperation;
 import io.edurt.sqlbuilder.spi.common.SqlRelation;
 import io.edurt.sqlbuilder.spi.exception.SqlConvertException;
 import io.edurt.sqlbuilder.spi.model.Action;
+import io.edurt.sqlbuilder.spi.model.Condition;
 import io.edurt.sqlbuilder.spi.model.Query;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +35,7 @@ public class TestProcessor
     public void test_parseQuery()
             throws SqlConvertException
     {
+        System.out.println("-------- query test case --------");
         Processor processor = () -> null;
         System.out.println(processor.parseQuery(query));
     }
@@ -41,7 +44,36 @@ public class TestProcessor
     public void test_parseRelation()
             throws SqlConvertException
     {
+        System.out.println("-------- relation test case --------");
         Processor processor = () -> null;
         System.out.println(processor.parseRelation(query));
+    }
+
+    @Test
+    public void test_parseCondition_one()
+    {
+        System.out.println("-------- one condition test case --------");
+        Condition condition = ObjectBuilder.of(Condition::new)
+                .with(Condition::setColumn, "name")
+                .with(Condition::setExpression, SqlExpression.EQ)
+                .with(Condition::setValues, Arrays.asList("sqlbuilder"))
+                .build();
+        query.setCondition(Arrays.asList(condition));
+        Processor processor = () -> null;
+        System.out.println(processor.parseCondition(query));
+    }
+
+    @Test
+    public void test_parseCondition_multiple()
+    {
+        System.out.println("-------- multiple condition test case --------");
+        Condition condition = ObjectBuilder.of(Condition::new)
+                .with(Condition::setColumn, "id")
+                .with(Condition::setExpression, SqlExpression.EQ)
+                .with(Condition::setValues, Arrays.asList("1", "2"))
+                .build();
+        query.setCondition(Arrays.asList(condition));
+        Processor processor = () -> null;
+        System.out.println(processor.parseCondition(query));
     }
 }
