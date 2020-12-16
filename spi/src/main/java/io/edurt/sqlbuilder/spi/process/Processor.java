@@ -31,6 +31,7 @@ public interface Processor
      *
      * @param body query object
      * @return query body string
+     * @throws SqlConvertException
      */
     default StringBuilder parseQuery(Query body)
             throws SqlConvertException
@@ -40,7 +41,8 @@ public interface Processor
             if (EnumUtils.isValidEnum(SqlOperation.class, action.getOperation().name())) {
                 switch (action.getOperation()) {
                     case SELECT:
-                        builder.append(format("%s\n", action.getOperation().getValue()));
+                        // fix VA_FORMAT_STRING_USES_NEWLINE for findbugs
+                        builder.append(format("%s%n", action.getOperation().getValue()));
                         // not contains column or column is *, set *
                         if (ObjectUtils.isEmpty(action.getColumns()) ||
                                 (action.getColumns().size() == 1 && action.getColumns().get(0).equals("*"))) {
@@ -48,11 +50,11 @@ public interface Processor
                         }
                         // multiple column
                         else if (action.getColumns().size() > 1) {
-                            builder.append(format("%s\n", String.join(", ", action.getColumns())));
+                            builder.append(format("%s%n", String.join(", ", action.getColumns())));
                         }
                         // has a column and not is *
                         else {
-                            builder.append(format("%s\n", action.getColumns().get(0)));
+                            builder.append(format("%s%n", action.getColumns().get(0)));
                         }
                         break;
                 }
@@ -69,6 +71,13 @@ public interface Processor
         return builder;
     }
 
+    /**
+     * parse query relation, eg: FROM a, LEFT JOIN a
+     *
+     * @param body query object
+     * @return query body string
+     * @throws SqlConvertException
+     */
     default StringBuilder parseRelation(Query body)
             throws SqlConvertException
     {
@@ -76,7 +85,7 @@ public interface Processor
         if (ObjectUtils.isNotEmpty(action) && ObjectUtils.isNotEmpty(action.getRelation())) {
             switch (action.getRelation()) {
                 case FROM:
-                    builder.append(String.format("%s\n%s", action.getRelation(), action.getTable()));
+                    builder.append(String.format("%s%n%s", action.getRelation(), action.getTable()));
                     break;
             }
         }
