@@ -5,4 +5,8 @@
   put here to instruct findbugs it must ignore them.
 -->
 <FindBugsFilter>
+    <Match>
+        <Class name="io.edurt.sqlbuilder.spi.exception.TestSqlConvertException" />
+        <Bug pattern="NM_CLASS_NOT_EXCEPTION" />
+    </Match>
 </FindBugsFilter>
