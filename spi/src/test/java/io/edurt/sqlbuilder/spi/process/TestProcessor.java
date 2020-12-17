@@ -76,4 +76,32 @@ public class TestProcessor
         Processor processor = () -> null;
         System.out.println(processor.parseCondition(query));
     }
+
+    @Test
+    public void test_parseCondition_gt()
+    {
+        System.out.println("-------- gt condition test case --------");
+        Condition condition = ObjectBuilder.of(Condition::new)
+                .with(Condition::setColumn, "id")
+                .with(Condition::setExpression, SqlExpression.GREAT)
+                .with(Condition::setValues, Arrays.asList("1"))
+                .build();
+        query.setCondition(Arrays.asList(condition));
+        Processor processor = () -> null;
+        System.out.println(processor.parseCondition(query));
+    }
+
+    @Test
+    public void test_parseCondition_lt()
+    {
+        System.out.println("-------- lt condition test case --------");
+        Condition condition = ObjectBuilder.of(Condition::new)
+                .with(Condition::setColumn, "id")
+                .with(Condition::setExpression, SqlExpression.LESS)
+                .with(Condition::setValues, Arrays.asList("1"))
+                .build();
+        query.setCondition(Arrays.asList(condition));
+        Processor processor = () -> null;
+        System.out.println(processor.parseCondition(query));
+    }
 }

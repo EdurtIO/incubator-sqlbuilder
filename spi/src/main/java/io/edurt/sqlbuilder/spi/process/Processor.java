@@ -1,6 +1,7 @@
 package io.edurt.sqlbuilder.spi.process;
 
 import io.edurt.sqlbuilder.spi.common.SqlCondition;
+import io.edurt.sqlbuilder.spi.common.SqlExpression;
 import io.edurt.sqlbuilder.spi.common.SqlOperation;
 import io.edurt.sqlbuilder.spi.exception.SqlConvertException;
 import io.edurt.sqlbuilder.spi.model.Action;
@@ -119,6 +120,14 @@ public interface Processor
                                     SqlCondition.IN,
                                     join(", ", v.getValues())));
                         }
+                        break;
+                    case GT:
+                    case GREAT:
+                        builder.append(format("%s %s %s%n", v.getColumn(), SqlExpression.GT.getValue(), v.getValues().get(0)));
+                        break;
+                    case LT:
+                    case LESS:
+                        builder.append(format("%s %s %s%n", v.getColumn(), SqlExpression.LT.getValue(), v.getValues().get(0)));
                         break;
                 }
             });
