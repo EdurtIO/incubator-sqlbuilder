@@ -28,18 +28,30 @@ public interface Processor
     /**
      * generate sql body
      *
+     * @param body query object
      * @return sql body for string
      */
-    String generateQuery();
+    String generateQuery(Query body)
+            throws SqlConvertException;
+
+    /**
+     * get sql string container
+     *
+     * @return StringBuilder container
+     */
+    default StringBuilder getBuilder()
+    {
+        return builder;
+    }
 
     /**
      * parse query body, eg: SELECT *, SELECT id, SELECT id, name
      *
      * @param body query object
-     * @return query body string
+     * @return this instance
      * @throws SqlConvertException
      */
-    default StringBuilder parseQuery(Query body)
+    default Processor parseQuery(Query body)
             throws SqlConvertException
     {
         if (ObjectUtils.isNotEmpty(body) && ObjectUtils.isNotEmpty(body.getAction())) {
@@ -74,17 +86,17 @@ public interface Processor
             LOGGER.warn("sql convert error, body or action must not null!");
             throw new SqlConvertException("sql convert error, body or action must not null!");
         }
-        return builder;
+        return this;
     }
 
     /**
      * parse query relation, eg: FROM a, LEFT JOIN a
      *
      * @param body query object
-     * @return query body string
+     * @return this instance
      * @throws SqlConvertException
      */
-    default StringBuilder parseRelation(Query body)
+    default Processor parseRelation(Query body)
             throws SqlConvertException
     {
         Action action = body.getAction();
@@ -99,13 +111,19 @@ public interface Processor
             LOGGER.warn("sql convert error, sql action or relation must not null!");
             throw new SqlConvertException("sql convert error, sql action or relation must not null!");
         }
-        return builder;
+        return this;
     }
 
-    default StringBuilder parseCondition(Query query)
+    /**
+     * parse query condition, eg: WHERE a = 1
+     *
+     * @param body query object
+     * @return this instance
+     */
+    default Processor parseCondition(Query body)
     {
-        List<Condition> conditions = query.getCondition();
-        builder.append(format("%s%n1 = 1 ", SqlCondition.WHERE));
+        List<Condition> conditions = body.getCondition();
+        builder.append(format("%n%s%n1 = 1 ", SqlCondition.WHERE));
         if (ObjectUtils.isNotEmpty(conditions) && conditions.size() > 0) {
             conditions.forEach(v -> {
                 switch (v.getExpression()) {
@@ -135,6 +153,6 @@ public interface Processor
         else {
             LOGGER.warn("sql condition is null, skip it!");
         }
-        return builder;
+        return this;
     }
 }

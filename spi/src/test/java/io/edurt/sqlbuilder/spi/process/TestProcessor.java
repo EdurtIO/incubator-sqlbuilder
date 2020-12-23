@@ -36,8 +36,8 @@ public class TestProcessor
             throws SqlConvertException
     {
         System.out.println("-------- query test case --------");
-        Processor processor = () -> null;
-        System.out.println(processor.parseQuery(query));
+        Processor processor = body -> null;
+        System.out.println(processor.parseQuery(query).getBuilder().toString());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class TestProcessor
             throws SqlConvertException
     {
         System.out.println("-------- relation test case --------");
-        Processor processor = () -> null;
+        Processor processor = body -> null;
         System.out.println(processor.parseRelation(query));
     }
 
@@ -59,7 +59,7 @@ public class TestProcessor
                 .with(Condition::setValues, Arrays.asList("sqlbuilder"))
                 .build();
         query.setCondition(Arrays.asList(condition));
-        Processor processor = () -> null;
+        Processor processor = body -> null;
         System.out.println(processor.parseCondition(query));
     }
 
@@ -73,7 +73,7 @@ public class TestProcessor
                 .with(Condition::setValues, Arrays.asList("1", "2"))
                 .build();
         query.setCondition(Arrays.asList(condition));
-        Processor processor = () -> null;
+        Processor processor = body -> null;
         System.out.println(processor.parseCondition(query));
     }
 
@@ -87,7 +87,7 @@ public class TestProcessor
                 .with(Condition::setValues, Arrays.asList("1"))
                 .build();
         query.setCondition(Arrays.asList(condition));
-        Processor processor = () -> null;
+        Processor processor = body -> null;
         System.out.println(processor.parseCondition(query));
     }
 
@@ -101,7 +101,7 @@ public class TestProcessor
                 .with(Condition::setValues, Arrays.asList("1"))
                 .build();
         query.setCondition(Arrays.asList(condition));
-        Processor processor = () -> null;
+        Processor processor = body -> null;
         System.out.println(processor.parseCondition(query));
     }
 }

@@ -6,7 +6,7 @@ package io.edurt.sqlbuilder.spi.common;
 public enum SqlRelation
 {
     FROM("FROM");
-    private String value;
+    private final String value;
 
     SqlRelation(String value)
     {
