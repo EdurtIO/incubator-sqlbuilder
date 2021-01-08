@@ -15,4 +15,5 @@ public class Query
 {
     private Action action;
     private List<Condition> condition;
+    private List<Aggregate> aggregates;
 }

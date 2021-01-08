@@ -1,11 +1,13 @@
 package io.edurt.sqlbuilder.spi.process;
 
 import io.edurt.sqlbuilder.common.jdk.ObjectBuilder;
+import io.edurt.sqlbuilder.spi.common.SqlAggregate;
 import io.edurt.sqlbuilder.spi.common.SqlExpression;
 import io.edurt.sqlbuilder.spi.common.SqlOperation;
 import io.edurt.sqlbuilder.spi.common.SqlRelation;
 import io.edurt.sqlbuilder.spi.exception.SqlConvertException;
 import io.edurt.sqlbuilder.spi.model.Action;
+import io.edurt.sqlbuilder.spi.model.Aggregate;
 import io.edurt.sqlbuilder.spi.model.Condition;
 import io.edurt.sqlbuilder.spi.model.Query;
 import org.junit.Before;
@@ -103,5 +105,17 @@ public class TestProcessor
         query.setCondition(Arrays.asList(condition));
         Processor processor = body -> null;
         System.out.println(processor.parseCondition(query));
+    }
+
+    @Test
+    public void test_parseAggregate()
+    {
+        System.out.println("-------- aggregate test case --------");
+        query.setAggregates(Arrays.asList(ObjectBuilder.of(Aggregate::new)
+                .with(Aggregate::setAggregate, SqlAggregate.GROUP_BY)
+                .with(Aggregate::setValues, Arrays.asList("name", "id"))
+                .build()));
+        Processor processor = body -> null;
+        System.out.println(processor.parseAggregate(query).getBuilder().toString());
     }
 }

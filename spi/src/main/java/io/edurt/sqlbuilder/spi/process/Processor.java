@@ -5,6 +5,7 @@ import io.edurt.sqlbuilder.spi.common.SqlExpression;
 import io.edurt.sqlbuilder.spi.common.SqlOperation;
 import io.edurt.sqlbuilder.spi.exception.SqlConvertException;
 import io.edurt.sqlbuilder.spi.model.Action;
+import io.edurt.sqlbuilder.spi.model.Aggregate;
 import io.edurt.sqlbuilder.spi.model.Condition;
 import io.edurt.sqlbuilder.spi.model.Query;
 import org.apache.commons.lang3.EnumUtils;
@@ -152,6 +153,36 @@ public interface Processor
         }
         else {
             LOGGER.warn("sql condition is null, skip it!");
+        }
+        return this;
+    }
+
+    /**
+     * arse query aggregate, eg: GROUP BY name
+     *
+     * @param body query object
+     * @return this instance
+     */
+    default Processor parseAggregate(Query body)
+    {
+        List<Aggregate> aggregates = body.getAggregates();
+        if (ObjectUtils.isNotEmpty(aggregates) && aggregates.size() > 0) {
+            aggregates.forEach(v -> {
+                switch (v.getAggregate()) {
+                    case GROUP_BY:
+                        LOGGER.info("builder sql {} aggregate from sql query", v.getAggregate());
+                        if (v.getValues().size() == 1) {
+                            builder.append(format("%n%s %s", v.getAggregate().getValue(), v.getValues().get(0)));
+                        }
+                        else {
+                            builder.append(format("%n%s %s", v.getAggregate().getValue(), join(", ", v.getValues())));
+                        }
+                        break;
+                }
+            });
+        }
+        else {
+            LOGGER.warn("sql aggregate is null, skip it!");
         }
         return this;
     }
