@@ -142,11 +142,11 @@ public interface Processor
                         break;
                     case GT:
                     case GREAT:
-                        builder.append(format("%s %s %s%n", v.getColumn(), SqlExpression.GT.getValue(), v.getValues().get(0)));
+                        builder.append(format("%s %s %s %s%n", SqlCondition.AND, v.getColumn(), SqlExpression.GT.getValue(), v.getValues().get(0)));
                         break;
                     case LT:
                     case LESS:
-                        builder.append(format("%s %s %s%n", v.getColumn(), SqlExpression.LT.getValue(), v.getValues().get(0)));
+                        builder.append(format("%s %s %s %s%n", SqlCondition.AND, v.getColumn(), SqlExpression.LT.getValue(), v.getValues().get(0)));
                         break;
                 }
             });
